@@ -1,0 +1,15 @@
+package com.java.service;
+
+import org.hibernate.criterion.DetachedCriteria;
+
+import com.java.domain.Customer;
+import com.java.domain.SaleVisit;
+import com.java.utils.PageBean;
+
+public interface SaleVIsitService extends BaseService<SaleVisit>{
+
+	void save(SaleVisit saleVisit);
+
+	PageBean<SaleVisit> getPageBean(DetachedCriteria dc, Integer currentPage, Integer pageSize);
+
+}
