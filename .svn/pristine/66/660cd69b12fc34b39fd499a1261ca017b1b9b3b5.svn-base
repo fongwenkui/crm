@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.java.domain" >
+	<class name="Role" table="sys_role" >
+		<id name="role_id"  >
+			<!-- generator:主键生成策略 -->
+			<generator class="native"></generator>
+		</id>
+		<property name="role_name" >
+		</property>
+		<property name="role_memo"  ></property>
+		
+		<set name="users" table="sys_user_role" inverse="true"><!-- inverse(反转) true:不维护外键关系，默认false(维护外键关系) -->
+			<key column="role_id"></key>	<!-- 外键，别人引用我的外键列名 -->
+			<many-to-many class="User" column="user_id"></many-to-many><!-- class：与哪个对象有关系，column:我引用别人的外键 -->
+		</set>
+		
+	</class>
+</hibernate-mapping>

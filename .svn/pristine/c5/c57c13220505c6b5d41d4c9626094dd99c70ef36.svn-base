@@ -1,0 +1,63 @@
+package com.java.web.action;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+
+import com.java.domain.User;
+import com.java.service.UserService;
+import com.java.utils.MD5Utils;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+
+@Controller("userAction")
+public class UserAction extends ActionSupport implements ModelDriven<User> {
+	
+	private User u=new User();
+	
+	@Resource(name="userService")
+	private UserService us;
+
+	public void setUs(UserService us) {
+		this.us = us;
+	}
+
+	/**
+	 * 登陆操作
+	 * @return
+	 * @throws Exception
+	 */
+	public String login() throws Exception {
+		//登陆操作
+		//MD5加密
+		u.setUser_password(MD5Utils.md5(u.getUser_password()));
+		User user = us.getUserByCode(u);
+		//存入session中
+		ActionContext.getContext().getSession().put("user", user);
+		return "toHome";
+	}
+	
+	/**
+	 * 注册
+	 * @return
+	 */
+	public String register(){
+		try {
+			//md5加密
+			u.setUser_password(MD5Utils.md5(u.getUser_password()));
+			us.saveUser(u);
+		} catch (Exception e) {
+			ActionContext.getContext().put("error", e.getMessage());
+			return "registerError";
+		}
+		return "toLogin";
+	}
+	
+
+	@Override
+	public User getModel() {
+		return u;
+	}
+
+}

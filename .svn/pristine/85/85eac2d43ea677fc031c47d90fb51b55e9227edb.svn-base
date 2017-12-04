@@ -1,0 +1,41 @@
+package com.java.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.hibernate.criterion.DetachedCriteria;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.java.dao.SaleVisitDao;
+import com.java.domain.Customer;
+import com.java.domain.SaleVisit;
+import com.java.service.SaleVIsitService;
+import com.java.utils.PageBean;
+@Service("saleVisitService")
+@Transactional(isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED,readOnly=false)
+public class SaleVIsitServiceImpl implements SaleVIsitService {
+	@Resource(name="saleVisitDao")
+	private SaleVisitDao svd;
+	
+	@Override
+	public PageBean<SaleVisit> getPageBean(DetachedCriteria dc, Integer currentPage, Integer pageSize) {
+		Integer totalCount=svd.getTotalCount(dc);
+		PageBean<SaleVisit> pageBean=new PageBean<>(currentPage, pageSize, totalCount);
+		List<SaleVisit> list=svd.getPageList(dc,pageBean.getStart(),pageBean.getPageSize());
+		pageBean.setList(list);
+		return pageBean;
+	}
+
+	@Override
+	public void save(SaleVisit saleVisit) {
+		svd.saveOrUpdate(saleVisit);
+	}
+
+	public void setSvd(SaleVisitDao svd) {
+		this.svd = svd;
+	}
+}
