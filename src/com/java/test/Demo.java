@@ -27,7 +27,7 @@ public class Demo {
 		System.out.println(u.getUser_code());
 	}
 //	public UserDao getUd() {
-//		return ud;
+//		return ud
 //	}
 //	public void setUd(UserDao ud) {
 //		this.ud = ud;
