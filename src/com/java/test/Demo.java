@@ -30,7 +30,7 @@ public class Demo {
 //		return ud
 //	}
 //	public void setUd(UserDao ud) {
-//		this.ud = ud;
+//		this.ud = ud
 //	}
 //	public UserService getUs() {
 //		return us;
